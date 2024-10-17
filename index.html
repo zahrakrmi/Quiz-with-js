@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-position-y: top;
+            background-size: cover;
+            background-image: url(asset/img/Pixilart\ -\ Live\ on.gif);
+            background-repeat: no-repeat;
+        }
+
+        .box {
+            height: 500px;
+            width: 600px;
+            /* background-color: white; */
+            background: rgb(238, 174, 202);
+            background: radial-gradient(circle, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+            border-radius: 10px;
+            margin: 100px auto;
+
+            >h1 {
+                color: rgb(129, 37, 159);
+                font-size: 25px;
+                border-bottom: 1px solid rgba(0, 0, 0, 0.403);
+                display: flex;
+                justify-content: center;
+                text-transform: capitalize;
+                padding: 15px;
+            }
+
+            >ul {
+                margin-top: 20px;
+                width: 100%;
+                /* border: 1px solid red; */
+                display: flex;
+                flex-wrap: wrap;
+                list-style-type: none;
+
+                >li {
+                    text-align: left;
+                    width: 100%;
+                    padding: 20px;
+                    background-color: rgba(255, 255, 255, 0.451);
+                    outline: none;
+                    border: 1px solid rgba(128, 128, 128, 0.264);
+                    margin: 10px;
+                    border-radius: 5px;
+                    cursor: pointer;
+                    transition: all .4s;
+                    font-size: 20px;
+                    color: rgb(75, 8, 134);
+                }
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <h1></h1>
+        <ul></ul>
+    </div>
+    <script>
+        const h1 = document.querySelector('.box>h1')
+        const ul = document.querySelector('.box>ul')
+        let answerli = []
+
+        const data = [
+            {
+                id: 1,
+                question: 'What is the correct syntax to output "Hello World" in JavaScript?',
+                answers: ["echo('Hello World')", "console.log('Hello World')", "print('Hello World')", "write ('Hello World')"],
+                status: 1
+            },
+            {
+                id: 2,
+                question: 'Which of the following is a JavaScript data type?',
+                answers: ["Number", "String", "Boolean", "All of the above"],
+                status: 3
+            },
+            {
+                id: 3,
+                question: 'How do you create a function in JavaScript?',
+                answers: [" function : myFunction() {}", " function myFunction() {}", "create myFunction() {}", "function = myFunction() {}"],
+                status: 1
+            },
+            {
+                id: 4,
+                question: 'What is the purpose of the this keyword in JavaScript?',
+                answers: ["  It refers to the global object.", "  It refers to the current object", "  It refers to the parent object.", "  It  has no purpose."],
+                status: 1
+            },
+            {
+                id: 5,
+                question: 'Which operator is used to assign a value to a variable in JavaScript?',
+                answers: ["-","*","=","=="],
+                status: 2
+            }
+        ]
+
+
+
+
+        let q = 0
+        let set = setInterval(question, 5000);
+        question()
+        function question() {
+            if (q < data.length) {
+                h1.innerHTML = data[q].id + ' : ' + data[q].question
+                ul.innerHTML = ''
+
+                data[q].answers.map((val) => {
+                    let li = document.createElement('li')
+                    li.innerHTML = val
+                    ul.appendChild(li)
+                })
+                answerli = document.querySelectorAll('ul>li')
+                // console.log(answerli);
+
+                q++
+            } else {
+                clearInterval(set)
+                h1.innerHTML=''
+                ul.innerHTML='Quiz finished!'
+                ul.style.margin='150px'
+                ul.style.fontSize='50px'
+                ul.style.color='50px'
+                h1.style.borderBottom='none'
+            }
+            answerli.forEach((val, index) => {
+                val.addEventListener('click', () => {
+                    if (index == data[q - 1].status) {
+                        val.style.background = 'rgba(13, 255, 0, 0.507)'
+                    } else {
+                        val.style.background = 'rgba(252, 0, 0, 0.701)'
+                        answerli[data[q - 1].status].style.background = 'rgba(13, 255, 0, 0.507)'
+                    }
+                    
+                    setTimeout(() => {
+                        clearInterval(set)
+                        question()
+                    }, 500);
+                    setTimeout(() => {
+                        set = setInterval(question, 5000);
+                    }, 1000);
+                })
+            })
+
+        }
+
+    </script>
+</body>
+
+</html>
